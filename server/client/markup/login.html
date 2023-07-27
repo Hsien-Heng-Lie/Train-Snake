@@ -5,8 +5,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Login</title>
-  <link rel="stylesheet" href="./styles/global.css">
-  <link rel="stylesheet" href="./styles/login.css" />
+  <link rel="stylesheet" type="text/css" href="global.css">
+  <link rel="stylesheet" type="text/css" href="login.css" />
 </head>
 
 <body>
@@ -24,7 +24,7 @@
 
   <script>
     const loginButton = document.getElementById('loginButton');
-    const apiUrl = '/api/player/login';
+    const apiUrl = '/auth/google/login';
     loginButton.addEventListener('click', () => {
       // Redirect to your API's login endpoint
       window.location.href = apiUrl;
