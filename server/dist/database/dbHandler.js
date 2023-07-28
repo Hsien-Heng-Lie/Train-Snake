@@ -12,11 +12,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getHighScores = exports.insertGameLog = exports.upsertUser = void 0;
 const { sql, poolPromise } = require('./dbService');
 const Player_1 = require("../models/Player");
+const GameLog_1 = require("../models/GameLog");
 function upsertUser(userName) {
     return __awaiter(this, void 0, void 0, function* () {
         const pool = yield poolPromise;
         const result = yield pool.request()
-            .input('UserName', sql.String, userName)
+            .input('UserName', userName)
             .execute('UpsertUser');
         const player = new Player_1.Player(result.recordset[0].UserName, result.recordset[0].highScore);
         return player;
@@ -27,9 +28,11 @@ function insertGameLog(userName, score) {
     return __awaiter(this, void 0, void 0, function* () {
         const pool = yield poolPromise;
         const result = yield pool.request()
-            .input('UserName', sql.String, userName)
-            .input('Score', sql.Int, score)
+            .input('UserName', userName)
+            .input('Score', score)
             .execute('InsertGameLog');
+        console.log(score);
+        console.log(userName);
         return result;
     });
 }
@@ -39,7 +42,11 @@ function getHighScores() {
         const pool = yield poolPromise;
         const result = yield pool.request()
             .execute('GetHighScores');
-        return result;
+        let scores = [];
+        for (let i = 0; i < result.recordset.length; i++) {
+            scores.push(new GameLog_1.GameLog(result.recordset[i].UserName, result.recordset[i].Score));
+        }
+        return scores;
     });
 }
 exports.getHighScores = getHighScores;

@@ -1,5 +1,5 @@
 // Fetch data from the backend API
-fetch('../../api/scoreboard', {
+fetch('api/scoreboard', {
 	method: 'GET',
 	headers: {
 		'Content-Type': 'application/json',

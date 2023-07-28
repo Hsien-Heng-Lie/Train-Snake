@@ -6,9 +6,9 @@ const scoreElement = document.querySelector(".score");
 const highScoreElement = document.querySelector(".high-score");
 
 
-const trainImage = '../resources/train.png';
-const trainCartImage = '../resources/car.png';
-const beerImage = "../resources/beer.png";
+const trainImage = 'train.png';
+const trainCartImage = 'car.png';
+const beerImage = "beer.png";
 const heightWidth = 20;
 const food = new Food(heightWidth,beerImage);
 const snake = new Snake(5,5,heightWidth,trainImage,trainCartImage);
@@ -17,12 +17,11 @@ let score = 0;
 
 const urlParams = new URLSearchParams(window.location.search);
 const accessTokenUrl = urlParams.get('access_token');
+console.log(urlParams.get('access_token'));
 const playerNameUrl = urlParams.get('playerName');
 
-if (localStorage.getItem('access_token') === null || localStorage.getItem('playerName') === null) {
 	localStorage.setItem('access_token', accessTokenUrl);
 	localStorage.setItem('playerName', playerNameUrl);
-}
 
 if ((accessTokenUrl === null || playerNameUrl === null) && (localStorage.getItem('access_token') === null || localStorage.getItem('playerName') === null)) {
 	console.log("Redirecting");
@@ -35,11 +34,12 @@ highScoreElement.innerText = `High Score: ${highScore}`;
 
 const playerName = localStorage.getItem('playerName');
 
-fetch(`../../api/player/score?playerName=${encodeURIComponent(playerName)}`, {
+fetch('/api/player', {
 	method: 'GET',
 	headers: {
 		'Content-Type': 'application/json',
 		'Authorization': `Bearer ${localStorage.getItem('access_token')}`,
+		'username' : playerName
 		// Add any required authentication headers if needed
 	}
 })
@@ -47,7 +47,6 @@ fetch(`../../api/player/score?playerName=${encodeURIComponent(playerName)}`, {
 		if (response.status === 401) {
 			window.location.href = '/';
 		}
-
 		return response.json();
 	})
 	.then((data) => {
@@ -68,13 +67,13 @@ const sendScoreToAPI = () => {
 	let playerName = localStorage.getItem("playerName");
 
 	const ScoreResult = {
-		playerName: playerName,
-		playerScore: parseInt(currentPlayerScore),
+		username: playerName,
+		score: parseInt(currentPlayerScore),
 	};
 
 	console.log(ScoreResult);
 
-	return fetch('../../api/player/score', {
+	return fetch('/api/score', {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',

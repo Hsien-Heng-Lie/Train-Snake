@@ -1,7 +1,5 @@
 import express from 'express';
-
-const passport = require('passport');
-require('../controllers/passport');
+import passport from 'passport';
 
 const authController = express.Router();
 
@@ -15,9 +13,11 @@ authController.get(
 authController.get(
     '/auth/google/callback',
     passport.authenticate('google', {
-        successRedirect: '/game',
         failureRedirect: '/auth/google/failure',
-    })
+    }),
+    function (req, res) {
+      res.redirect("/redirect");
+    }
 );
 
 authController.get('/auth/google/failure', (req, res) => {

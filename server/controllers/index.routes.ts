@@ -7,6 +7,11 @@ indexController.get("/", (req: Request, res: Response) => {
   res.sendFile(path.join(__dirname, "../../client/markup/login.html"));
 });
 
+indexController.get("/redirect", (req: Request, res: Response) => {
+  const obj = JSON.parse(JSON.stringify(req.user));
+  res.redirect(`/game?playerName=${obj.displayName}&access_token=${obj.accessToken}`)
+})
+
 indexController.get("/game", (req: Request, res: Response) => {
   res.sendFile(path.join(__dirname, "../../client/markup/game.html"));
 });

@@ -7,10 +7,14 @@ const express_1 = __importDefault(require("express"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const index_routes_1 = __importDefault(require("./controllers/index.routes"));
 const auth_routes_1 = __importDefault(require("./controllers/auth.routes"));
+const api_routes_1 = __importDefault(require("./controllers/api.routes"));
 const dbHandler_1 = require("./database/dbHandler");
 const path_1 = __importDefault(require("path"));
 const body_parser_1 = __importDefault(require("body-parser"));
+const fs_1 = __importDefault(require("fs"));
+const https_1 = __importDefault(require("https"));
 dotenv_1.default.config();
+require("./config/passport");
 // DEBUG ///////////////////////////
 console.log(process.env.DATABASE);
 let res = (0, dbHandler_1.getHighScores)();
@@ -36,8 +40,13 @@ app.use(express_1.default.static(path_1.default.join(__dirname, "..", "client", 
 // CONTROLLERS
 app.use(index_routes_1.default);
 app.use(auth_routes_1.default);
-// WEBSERVER
+app.use(api_routes_1.default);
+// SERVER
+const options = {
+    key: fs_1.default.readFileSync('key.pem'),
+    cert: fs_1.default.readFileSync('cert.pem'),
+};
 const port = process.env.PORT;
-app.listen(port, () => {
-    console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
+https_1.default.createServer(options, app).listen(port, () => {
+    console.log(`⚡️[server]: Server is running at https://localhost:${port}`);
 });

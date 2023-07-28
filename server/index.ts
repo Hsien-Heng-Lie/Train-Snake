@@ -2,10 +2,14 @@ import express, { Express } from 'express';
 import dotenv from 'dotenv';
 import indexController from './controllers/index.routes';
 import authController from './controllers/auth.routes';
+import apiController from './controllers/api.routes';
 import { getHighScores } from './database/dbHandler';
 import path from 'path';
 import bodyParser from 'body-parser';
+import fs from 'fs';
+import https from 'https';
 dotenv.config();
+import './config/passport';
 
 // DEBUG ///////////////////////////
 console.log(process.env.DATABASE);
@@ -41,10 +45,17 @@ app.use(express.static(path.join(__dirname, "..", "client", "resources")));
 // CONTROLLERS
 app.use(indexController);
 app.use(authController);
+app.use(apiController);
 
 
-// WEBSERVER
+// SERVER
+const options = {
+  key: fs.readFileSync('key.pem'),
+  cert: fs.readFileSync('cert.pem'),
+};
+
 const port = process.env.PORT;
-app.listen(port, () => {
-  console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
+
+https.createServer(options, app).listen(port, () => {
+  console.log(`⚡️[server]: Server is running at https://localhost:${port}`);
 });

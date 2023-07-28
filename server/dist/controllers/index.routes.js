@@ -9,6 +9,10 @@ const indexController = express_1.default.Router();
 indexController.get("/", (req, res) => {
     res.sendFile(path_1.default.join(__dirname, "../../client/markup/login.html"));
 });
+indexController.get("/redirect", (req, res) => {
+    const obj = JSON.parse(JSON.stringify(req.user));
+    res.redirect(`/game?playerName=${obj.displayName}&access_token=${obj.accessToken}`);
+});
 indexController.get("/game", (req, res) => {
     res.sendFile(path_1.default.join(__dirname, "../../client/markup/game.html"));
 });
