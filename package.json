@@ -1,0 +1,22 @@
+{
+  "name": "train-snake",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+
+    "server-install": "npm install --prefix ./server",
+    "server-start": "node server/app.js"
+  },
+
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Hsien-Heng-Lie/Train-Snake.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Hsien-Heng-Lie/Train-Snake/issues"
+  },
+  "homepage": "https://github.com/Hsien-Heng-Lie/Train-Snake#readme"
+}
