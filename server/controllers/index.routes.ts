@@ -12,11 +12,11 @@ indexController.get("/redirect", (req: Request, res: Response) => {
   res.redirect(`/game?playerName=${obj.displayName}&access_token=${obj.accessToken}`)
 })
 
-indexController.get("/game", (req: Request, res: Response) => {
+indexController.get("/game", ensureAuthenticated, (req: Request, res: Response) => {
   res.sendFile(path.join(__dirname, "../../client/markup/game.html"));
 });
 
-indexController.get("/scores", (req: Request, res: Response) => {
+indexController.get("/scores", ensureAuthenticated, (req: Request, res: Response) => {
   res.sendFile(path.join(__dirname, "../../client/markup/scores.html"));
 });
 

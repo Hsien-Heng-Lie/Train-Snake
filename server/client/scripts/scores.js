@@ -17,7 +17,8 @@ fetch('api/scoreboard', {
 	.then((data) => {
     // Iterate over the scores and add rows to the scoreboard
     const scoreboardBody = document.getElementById("table-body-scores");
-    console.log(data.scores);
+		
+
 		(data.scores).forEach((highestScores) => {
       const row = document.createElement("tr");
       const usernameCell = document.createElement("td");

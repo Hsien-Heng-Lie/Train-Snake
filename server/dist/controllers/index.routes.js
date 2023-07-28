@@ -13,10 +13,10 @@ indexController.get("/redirect", (req, res) => {
     const obj = JSON.parse(JSON.stringify(req.user));
     res.redirect(`/game?playerName=${obj.displayName}&access_token=${obj.accessToken}`);
 });
-indexController.get("/game", (req, res) => {
+indexController.get("/game", ensureAuthenticated, (req, res) => {
     res.sendFile(path_1.default.join(__dirname, "../../client/markup/game.html"));
 });
-indexController.get("/scores", (req, res) => {
+indexController.get("/scores", ensureAuthenticated, (req, res) => {
     res.sendFile(path_1.default.join(__dirname, "../../client/markup/scores.html"));
 });
 exports.default = indexController;

@@ -24,7 +24,7 @@ passport.use(
             done(null, user);
         }
     )
-    );
+);
 
 // Serialization and deserialization of users
 passport.serializeUser(function (user, done) {
