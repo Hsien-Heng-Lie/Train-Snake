@@ -18,7 +18,7 @@ async function getHighscore(playerName) {
 }
 
 
-async function setScore(){
+async function setScore(ScoreResult){
 
   const response = await fetch('/api/score', {
 		method: 'POST',
@@ -29,7 +29,7 @@ async function setScore(){
 		},
 		body: JSON.stringify(ScoreResult),
 	})
-  
+
   if (response.ok) {
     return response.json();
   }
