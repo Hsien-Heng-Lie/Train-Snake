@@ -1,5 +1,6 @@
 import { Snake } from "./classes/snake.js";
 import { Food } from "./classes/food.js";
+import * as utils from "./utils.js";
 
 const playBoard = document.querySelector(".play-board");
 const scoreElement = document.querySelector(".score");
@@ -17,7 +18,6 @@ let score = 0;
 
 const urlParams = new URLSearchParams(window.location.search);
 const accessTokenUrl = urlParams.get('access_token');
-console.log(urlParams.get('access_token'));
 const playerNameUrl = urlParams.get('playerName');
 
 	localStorage.setItem('access_token', accessTokenUrl);
@@ -34,32 +34,20 @@ highScoreElement.innerText = `High Score: ${highScore}`;
 
 const playerName = localStorage.getItem('playerName');
 
-fetch('/api/player', {
-	method: 'GET',
-	headers: {
-		'Content-Type': 'application/json',
-		'Authorization': `Bearer ${localStorage.getItem('access_token')}`,
-		'username' : playerName
-		// Add any required authentication headers if needed
-	}
-})
-	.then(function (response) {
-		if (response.status === 401) {
-			window.location.href = '/';
-		}
-		return response.json();
-	})
-	.then((data) => {
-		highScore = data.score;	
-		highScoreElement.innerText = `High Score: ${highScore}`;
+window.onload = (event) => {
+  const response = utils.getHighscore(playerName);
+  response.then((data) => {
+    if (data !== "success") {
+      highScore = data.player.highscore;	
+      highScoreElement.innerText = `High Score: ${highScore}`;
 
-		food.updateFoodPosition();
-		setIntervalId = setInterval(initGame, 150);
-		document.addEventListener("keydown", changeDirection);
-	})
-	.catch((error) => {
-		console.error("Error fetching player score:", error);
-	});
+      food.updateFoodPosition();
+      setIntervalId = setInterval(initGame, 150);
+      document.addEventListener("keydown", changeDirection);
+    }
+  });
+};
+
 
 const sendScoreToAPI = () => {
 	console.log("Running post request");
@@ -71,42 +59,15 @@ const sendScoreToAPI = () => {
 		score: parseInt(currentPlayerScore),
 	};
 
-	console.log(ScoreResult);
-
-	return fetch('/api/score', {
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json',
-			'Authorization': `Bearer ${localStorage.getItem('access_token')}`,
-			// Add any required authentication headers if needed
-		},
-		body: JSON.stringify(ScoreResult),
-	})
-		.then(function (response) {
-			if (response.status === 401) {
-				window.location.href = '/';
-			}
-
-			return response.json();
-		})
-		.catch((error) => {
-			console.error("Error fetching player score:", error);
-		});
+  const response = utils.getHighscore(playerName);
 }
 
 // Gameplay
 const handleGameOver = () => {
 		clearInterval(setIntervalId);
-	sendScoreToAPI()
-		.then(() => {
-			alert("Game Over! Press OK to replay...");
-			location.reload();
-		})
-		.catch((error) => {
-			console.error("Error sending player score:", error);
-			alert("Game Over! Press OK to replay...");
-			location.reload();
-		});
+    sendScoreToAPI()
+    alert("Game Over! Press OK to replay...");
+    location.reload();
 }
 
 const changeDirection = e => {

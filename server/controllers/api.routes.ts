@@ -15,13 +15,12 @@ apiController.get("/api/player", async (req: Request, res: Response) => {
 
 apiController.get("/api/scoreboard", async (req: Request, res: Response) => {
   let scores = await getHighScores();
-  console.log(scores);
   res.json({
     scores
   });
 });
 
-apiController.post("/api/scores", async (req: Request, res: Response) => {
+apiController.post("/api/score", async (req: Request, res: Response) => {
   try{
     let username:string = req.body['username']?.toString() + "";
     let score:number = Number(req.body['score']?.toString());
