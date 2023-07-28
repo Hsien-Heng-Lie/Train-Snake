@@ -11,11 +11,6 @@ import https from 'https';
 dotenv.config();
 import './config/passport';
 
-// DEBUG ///////////////////////////
-console.log(process.env.DATABASE);
-let res = getHighScores();
-console.log(res);
-////////////////////////////////////
 
 const app: Express = express();
 const passport = require('passport');
@@ -48,14 +43,8 @@ app.use(authController);
 app.use(apiController);
 
 
-// SERVER
-const options = {
-  key: fs.readFileSync('key.pem'),
-  cert: fs.readFileSync('cert.pem'),
-};
-
 const port = process.env.PORT;
 
-https.createServer(options, app).listen(port, () => {
-  console.log(`⚡️[server]: Server is running at https://localhost:${port}`);
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
 });
