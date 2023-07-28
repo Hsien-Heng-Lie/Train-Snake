@@ -1,4 +1,4 @@
-async function ensureAuthenticated(req: any, res: any, next:any) {
+export async function ensureAuthenticated(req: any, res: any, next:any) {
     //TODO Implemnt cookie parser
     if (req.isAuthenticated()) {
       // If user is authenticated, allow them to proceed
@@ -8,5 +8,3 @@ async function ensureAuthenticated(req: any, res: any, next:any) {
       return res.redirect('/'); // Modify the URL according to your application's routes
     }
   }
-  
-  module.exports = { ensureAuthenticated };

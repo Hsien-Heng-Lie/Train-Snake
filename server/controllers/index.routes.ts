@@ -1,5 +1,6 @@
 import express, { Request, Response, Router } from 'express';
 import path from 'path';
+import { ensureAuthenticated } from '../middleware/authentication.middleware';
 
 const indexController: Router = express.Router();
 

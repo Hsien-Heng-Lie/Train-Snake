@@ -8,6 +8,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.ensureAuthenticated = void 0;
 function ensureAuthenticated(req, res, next) {
     return __awaiter(this, void 0, void 0, function* () {
         //TODO Implemnt cookie parser
@@ -21,4 +23,4 @@ function ensureAuthenticated(req, res, next) {
         }
     });
 }
-module.exports = { ensureAuthenticated };
+exports.ensureAuthenticated = ensureAuthenticated;
