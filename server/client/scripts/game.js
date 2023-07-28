@@ -59,7 +59,7 @@ const sendScoreToAPI = () => {
 		score: parseInt(currentPlayerScore),
 	};
 
-  const response = utils.getHighscore(playerName);
+  const response = utils.setScore(ScoreResult);
 }
 
 // Gameplay
