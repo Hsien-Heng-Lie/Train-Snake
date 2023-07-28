@@ -25,12 +25,11 @@ apiController.get("/api/player", (req, res) => __awaiter(void 0, void 0, void 0,
 }));
 apiController.get("/api/scoreboard", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     let scores = yield (0, dbHandler_1.getHighScores)();
-    console.log(scores);
     res.json({
         scores
     });
 }));
-apiController.post("/api/scores", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+apiController.post("/api/score", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _b, _c;
     try {
         let username = ((_b = req.body['username']) === null || _b === void 0 ? void 0 : _b.toString()) + "";
